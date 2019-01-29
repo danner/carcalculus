@@ -114,15 +114,33 @@
       wheels_choices: [
         {
           id: 1,
-          name: "cobra blah",
+          name: "Nitto R555 G2",
           diameter: 25.7,
+          width: 345,
           revs_per_mile: 808,
         },
         {
           id: 2,
-          name: "94 miata summer",
+          name: "Toyo Proxes T1R",
           diameter: 21.7,
+          width: 205,
           revs_per_mile: 930,
+        },
+      ],
+      chassis_choices: [
+        {
+          id: 1,
+          name: "Factory Five Cobra",
+          weight: 2100,
+          frontal_area: 18.5,
+          drag_coefficient: 0.45,
+        },
+        {
+          id: 2,
+          name: "94 mazda miata",
+          weight: 2450,
+          frontal_area: 18.42,
+          drag_coefficient: 0.38,
         },
       ],
     })

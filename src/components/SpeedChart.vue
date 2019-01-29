@@ -33,17 +33,18 @@
       },
       gearSpeeds(rpmPoints, gearRatio, finalDriveRatio, wheelDiameter) {
         const MILES_TO_INCHES = 63360;
-        return rpmPoints.map(rpm => (60/MILES_TO_INCHES)*(rpm*wheelDiameter*Math.PI)/(gearRatio * finalDriveRatio));
+        return rpmPoints.map(rpm => ((60/MILES_TO_INCHES)*(rpm*wheelDiameter*Math.PI)/(gearRatio * finalDriveRatio)).toFixed(2));
       },
-      speedValues(engine, transmission, drivetrain, wheels, increment) {
+      transmissionSpeeds(engine, transmission, drivetrain, wheels, increment) {
         // calculate all the gears.
         // TODO: Memoize the results
         const rpmPoints = this.rpmLabels(engine, increment);
-        let gears = [];
-        for (let gear of transmission.gears) {
-          gears.push(this.gearSpeeds(rpmPoints, gear.ratio, drivetrain.final_drive, wheels.diameter))
-        }
-        return gears;
+        return transmission.gears.map(gear => (
+          {
+            name: "gear " + gear.id,
+            values: this.gearSpeeds(rpmPoints, gear.ratio, drivetrain.final_drive, wheels.diameter)
+          }
+        ));
       },
     },
   }
@@ -65,7 +66,7 @@
       :labels="rpmLabels(engine, 300).map(rpm => rpm.toString())"
       :colors="['#008F68', '#FAE042']"
       :line-options="{regionFill: 1}"
-      :data-sets="speedValues(engine, transmission, drivetrain, wheels, 300)"
+      :data-sets="transmissionSpeeds(engine, transmission, drivetrain, wheels, 300)"
     />
   </div>
 </template>
