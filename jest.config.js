@@ -40,4 +40,5 @@ module.exports = {
   // Solves: https://stackoverflow.com/questions/42677387/jest-returns-network-error-when-doing-an-authenticated-request-with-axios
   testURL:
     process.env.API_BASE_URL || `http://localhost:${process.env.MOCK_API_PORT}`,
+  transformIgnorePatterns: ['<rootDir>/node_modules/'],
 }

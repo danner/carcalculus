@@ -2,7 +2,7 @@ import MainLayout from './main'
 
 describe('@layouts/main', () => {
   it('renders its content', () => {
-    const slotContent = '<p>Hello!</p>'
+    const slotContent = 'Loading...'
     const { element } = shallowMount(MainLayout, {
       slots: {
         default: slotContent,
