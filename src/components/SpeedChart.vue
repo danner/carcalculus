@@ -1,53 +1,67 @@
 <script>
-  import Vue from 'vue';
-  import VueFrappe from 'vue2-frappe';
-  Vue.use(VueFrappe);
+import Vue from 'vue'
+import VueFrappe from 'vue2-frappe'
+Vue.use(VueFrappe)
 
-  export default {
-    props: {
-      engine: {
-        type: Object,
-        default: null,
-      },
-      transmission: {
-        type: Object,
-        default: null,
-      },
-      drivetrain: {
-        type: Object,
-        default: null,
-      },
-      wheels: {
-        type: Object,
-        default: null,
-      },
+export default {
+  props: {
+    engine: {
+      type: Object,
+      default: null,
     },
-    methods: {
-      rpmLabels(engine, increment) {
-        if(engine.dyno){
-          const [maxRpm] = engine.dyno.slice(-1);
-          return Array.from({ length: Math.ceil(maxRpm.rpm/increment)+1 }, (v, i) => (i*increment));
-        } else {
-          return Array.from({ length: 20 }, (v, i) => i*increment);
-        }
-      },
-      gearSpeeds(rpmPoints, gearRatio, finalDriveRatio, wheelDiameter) {
-        const MILES_TO_INCHES = 63360;
-        return rpmPoints.map(rpm => ((60/MILES_TO_INCHES)*(rpm*wheelDiameter*Math.PI)/(gearRatio * finalDriveRatio)).toFixed(2));
-      },
-      transmissionSpeeds(engine, transmission, drivetrain, wheels, increment) {
-        // calculate all the gears.
-        // TODO: Memoize the results
-        const rpmPoints = this.rpmLabels(engine, increment);
-        return transmission.gears.map(gear => (
-          {
-            name: "gear " + gear.id,
-            values: this.gearSpeeds(rpmPoints, gear.ratio, drivetrain.final_drive, wheels.diameter)
-          }
-        ));
-      },
+    transmission: {
+      type: Object,
+      default: null,
     },
-  }
+    drivetrain: {
+      type: Object,
+      default: null,
+    },
+    wheels: {
+      type: Object,
+      default: null,
+    },
+  },
+  data: () => ({
+    transmissionSpeeds: {},
+  }),
+  methods: {
+    rpmLabels(engine, increment) {
+      if (engine.dyno) {
+        const [maxRpm] = engine.dyno.slice(-1)
+        return Array.from(
+          { length: Math.ceil(maxRpm.rpm / increment) + 1 },
+          (v, i) => i * increment
+        )
+      } else {
+        return Array.from({ length: 20 }, (v, i) => i * increment)
+      }
+    },
+    gearSpeeds(rpmPoints, gearRatio, finalDriveRatio, wheelDiameter) {
+      const MILES_TO_INCHES = 63360
+      return rpmPoints.map(rpm =>
+        (
+          ((60 / MILES_TO_INCHES) * (rpm * wheelDiameter * Math.PI)) /
+          (gearRatio * finalDriveRatio)
+        ).toFixed(2)
+      )
+    },
+    transmissionSpeeds(engine, transmission, drivetrain, wheels, increment) {
+      // calculate all the gears.
+      // TODO: Memoize the results
+      const rpmPoints = this.rpmLabels(engine, increment)
+      return transmission.gears.map(gear => ({
+        name: 'gear ' + gear.id,
+        values: this.gearSpeeds(
+          rpmPoints,
+          gear.ratio,
+          drivetrain.final_drive,
+          wheels.diameter
+        ),
+      }))
+    },
+  },
+}
 </script>
 
 <template>
@@ -65,9 +79,10 @@
       type="line"
       :labels="rpmLabels(engine, 300).map(rpm => rpm.toString())"
       :colors="['#008F68', '#FAE042']"
-      :line-options="{regionFill: 1}"
-      :data-sets="transmissionSpeeds(engine, transmission, drivetrain, wheels, 300)"
+      :line-options="{ regionFill: 1 }"
+      :data-sets="
+        transmissionSpeeds(engine, transmission, drivetrain, wheels, 300)
+      "
     />
   </div>
 </template>
-
