@@ -1,9 +1,10 @@
 <script>
-import Vue from 'vue'
-import VueFrappe from 'vue2-frappe'
-Vue.use(VueFrappe)
+import LineChart from './LineChart.js'
 
 export default {
+  components: {
+    LineChart
+  },
   data: () => ({
     rpmIncrement: 300,
   }),
@@ -24,11 +25,19 @@ export default {
       return this.$store.state.car.wheels
     },
     transmissionSpeeds() {
-      return this.calculateTransmissionSpeeds(this.engine, this.transmission, this.drivetrain, this.wheels, this.rpmIncrement)
+      return {
+        labels: this.rpmLabels,
+        datasets: this.calculateTransmissionSpeeds(this.engine, this.transmission, this.drivetrain, this.wheels, this.rpmIncrement)
+      }
     },
     rpmLabels() {
       return this.calculateRpmLabels(this.engine, 300)
     },
+  },
+  watch: {
+    chartData () {
+      this.$data._chart.update()
+    }
   },
   methods: {
     calculateRpmLabels(engine, increment) {
@@ -54,8 +63,8 @@ export default {
     calculateTransmissionSpeeds(engine, transmission, drivetrain, wheels, increment) {
       // calculate all the gears.
       return transmission.gears.map(gear => ({
-        name: 'gear ' + gear.id,
-        values: this.gearSpeeds(
+        label: 'gear ' + gear.id,
+        data: this.gearSpeeds(
           this.rpmLabels,
           gear.ratio,
           drivetrain.final_drive,
@@ -69,23 +78,9 @@ export default {
 
 <template>
   <div>
-    <!-- id - Every chart must have an id. -->
-    <!-- title - The title displayed on the chart -->
-    <!-- type - The type of chart: line, bar, percent, pie, or axis-mixed. -->
-    <!-- labels - Names for each value on the x-axis. -->
-    <!-- height- Optional: How tall the chart should be. -->
-    <!-- colors - Separate colors for each dataset. -->
-    <!-- lineOptions - Additional options for how to display line charts. See docs. -->
-    <!-- datasets - An array of objects containing names and values for each data set. -->
-    <vue-frappe
-      id="my-chart-id"
-      type="line"
-      :labels="rpmLabels.map(rpm => rpm.toString())"
-      :colors="['#008F68', '#FAE042']"
-      :line-options="{ regionFill: 1 }"
-      :data-sets="
-        transmissionSpeeds
-      "
+    <line-chart
+      :chart-data="transmissionSpeeds"
+      :options="{responsive: true}"
     />
   </div>
 </template>

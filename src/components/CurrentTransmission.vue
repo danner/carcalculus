@@ -3,20 +3,19 @@
 
   export default {
     components: { NumberSlider },
-    props: {
-      id: {
-        type: Number,
-        default: 1,
-      },
-      title: {
-        type: String,
-        default: "",
-      },
-      gears: {
-        type: Array,
-        default: () => ([]),
-      },
+    computed: {
+      gears() {
+        return this.$store.state.car.transmission.gears
+      }
     },
+    methods: {
+      updateGearRatio(gear, e) {
+        this.$store.commit('car/SET_TRANSMISSION_GEAR_RATIO', {
+          gear: gear,
+          value: e
+        })
+      },
+    }
   }
 </script>
 
@@ -27,7 +26,7 @@
       :key="gear.id"
       :number="gear.ratio"
       :title="gear.id"
-      @input="gear.ratio = $event"
+      @input="updateGearRatio(gear, $event)"
     />
   </v-container>
 </template>

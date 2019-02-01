@@ -69,17 +69,73 @@ export default {
       {
         id: 2,
         name: '4 speed top loader',
-        gears: [{}, {}, {}, {}],
+        gears: [
+          {
+            id: 1,
+            ratio: '2.32'
+          },
+          {
+            id: 2,
+            ratio: '1.69'
+          },{
+            id: 3,
+            ratio: '1.29'
+          },
+          {
+            id: 4,
+            ratio: '1.00'
+          },
+        ],
       },
       {
         id: 3,
         name: '94 miata',
-        gears: [{}, {}, {}, {}, {}],
+        gears: [
+          {
+            id: 1,
+            ratio: '3.136'
+          },
+          {
+            id: 2,
+            ratio: '1.888'
+          },{
+            id: 3,
+            ratio: '1.330'
+          },
+          {
+            id: 4,
+            ratio: '1.00'
+          },
+          {
+            id: 5,
+            ratio: '0.814'
+          },
+        ],
       },
       {
         id: 4,
-        name: '',
-        gears: [{}, {}, {}, {}, {}],
+        name: 'TKO 600 5 Speed',
+        gears: [
+          {
+            id: 1,
+            ratio: '2.87'
+          },
+          {
+            id: 2,
+            ratio: '1.89'
+          },{
+            id: 3,
+            ratio: '1.28'
+          },
+          {
+            id: 4,
+            ratio: '1.00'
+          },
+          {
+            id: 5,
+            ratio: '0.82'
+          },
+        ],
       },
     ],
     drivetrain_choices: [
@@ -130,20 +186,45 @@ export default {
     ],
   }),
   computed: {
-    chassis() {
-      return this.$store.state.car.chassis
+    chassis: {
+      set(chassis) {
+        this.$store.commit('car/SET_CHASSIS', chassis)
+      },
+      get() {
+        return this.$store.state.car.chassis
+      },
     },
-    drivetrain() {
-      return this.$store.state.car.drivetrain
+    drivetrain: {
+      set(drivetrain) {
+        this.$store.commit('car/SET_DRIVETRAIN', drivetrain)
+      },
+      get() {
+        return this.$store.state.car.drivetrain
+      },
     },
-    engine() {
-      return this.$store.state.car.engine
+    engine: {
+      set(engine) {
+        this.$store.commit('car/SET_ENGINE', engine)
+      },
+      get() {
+        return this.$store.state.car.engine
+      },
     },
-    transmission() {
-      return this.$store.state.car.transmission
+    transmission: {
+      set(transmission) {
+        this.$store.commit('car/SET_TRANSMISSION', transmission)
+      },
+      get() {
+        return this.$store.state.car.transmission
+      },
     },
-    wheels() {
-      return this.$store.state.car.wheels
+    wheels: {
+      set(wheels) {
+        this.$store.commit('car/SET_WHEELS', wheels)
+      },
+      get() {
+        return this.$store.state.car.wheels
+      },
     },
   },
 }
@@ -178,9 +259,7 @@ export default {
             label="Select"
             item-text="name"
           />
-          <current-transmission
-            v-bind="transmission"
-          />
+          <current-transmission />
         </v-card>
       </v-expansion-panel-content>
     </v-expansion-panel>
