@@ -3,26 +3,9 @@
   import SpeedChart from '@src/components/SpeedChart'
 
 export default {
-    components: { DynoChart, SpeedChart },
-    props: {
-      engine: {
-        type: Object,
-        default: null,
-      },
-      transmission: {
-        type: Object,
-        default: null,
-      },
-      drivetrain: {
-        type: Object,
-        default: null,
-      },
-      wheels: {
-        type: Object,
-        default: null,
-      },
-    },
-}
+  components: { DynoChart, SpeedChart },
+};
+
 </script>
 
 <template>
@@ -36,9 +19,7 @@ export default {
           Dyno
         </div>
         <v-card>
-          <dyno-chart
-            :engine="engine"
-          />
+          <dyno-chart />
         </v-card>
       </v-expansion-panel-content>
       <v-expansion-panel-content>
@@ -46,9 +27,7 @@ export default {
           Speed
         </div>
         <v-card>
-          <speed-chart
-            v-bind="$props"
-          />
+          <speed-chart />
         </v-card>
       </v-expansion-panel-content>
     </v-expansion-panel>

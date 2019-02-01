@@ -5,22 +5,6 @@ import CurrentEngine from '@src/components/CurrentEngine'
 export default {
   components: { CurrentTransmission, CurrentEngine },
   props: {
-    engine: {
-      type: Object,
-      default: null,
-    },
-    transmission: {
-      type: Object,
-      default: null,
-    },
-    drivetrain: {
-      type: Object,
-      default: null,
-    },
-    wheels: {
-      type: Object,
-      default: null,
-    },
   },
   data: () => ({
     engine_choices: [
@@ -145,34 +129,58 @@ export default {
       },
     ],
   }),
+  computed: {
+    chassis() {
+      return this.$store.state.car.chassis
+    },
+    drivetrain() {
+      return this.$store.state.car.drivetrain
+    },
+    engine() {
+      return this.$store.state.car.engine
+    },
+    transmission() {
+      return this.$store.state.car.transmission
+    },
+    wheels() {
+      return this.$store.state.car.wheels
+    },
+  },
 }
 </script>
 
 <template>
   <v-layout>
-    <v-expansion-panel expand focusable>
+    <v-expansion-panel
+      expand
+      focusable
+    >
       <v-expansion-panel-content>
         <div slot="header">
           Engine
         </div>
         <v-card>
-          <current-engine :engine="engine" :transmission="transmission" />
+          <current-engine
+            :engine="engine"
+            :transmission="transmission"
+          />
         </v-card>
       </v-expansion-panel-content>
       <v-expansion-panel-content>
         <div slot="header">
           Transmission
+        </div>
+        <v-card>
           <v-autocomplete
             v-model="transmission"
             :items="transmission_choices"
-            box
             return-object
             label="Select"
             item-text="name"
           />
-        </div>
-        <v-card>
-          <current-transmission v-bind="transmission" />
+          <current-transmission
+            v-bind="transmission"
+          />
         </v-card>
       </v-expansion-panel-content>
     </v-expansion-panel>

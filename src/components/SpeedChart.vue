@@ -4,29 +4,34 @@ import VueFrappe from 'vue2-frappe'
 Vue.use(VueFrappe)
 
 export default {
-  props: {
-    engine: {
-      type: Object,
-      default: null,
+  data: () => ({
+    rpmIncrement: 300,
+  }),
+  computed: {
+    chassis() {
+      return this.$store.state.car.chassis
     },
-    transmission: {
-      type: Object,
-      default: null,
+    drivetrain() {
+      return this.$store.state.car.drivetrain
     },
-    drivetrain: {
-      type: Object,
-      default: null,
+    engine() {
+      return this.$store.state.car.engine
     },
-    wheels: {
-      type: Object,
-      default: null,
+    transmission() {
+      return this.$store.state.car.transmission
+    },
+    wheels() {
+      return this.$store.state.car.wheels
+    },
+    transmissionSpeeds() {
+      return this.calculateTransmissionSpeeds(this.engine, this.transmission, this.drivetrain, this.wheels, this.rpmIncrement)
+    },
+    rpmLabels() {
+      return this.calculateRpmLabels(this.engine, 300)
     },
   },
-  data: () => ({
-    transmissionSpeeds: {},
-  }),
   methods: {
-    rpmLabels(engine, increment) {
+    calculateRpmLabels(engine, increment) {
       if (engine.dyno) {
         const [maxRpm] = engine.dyno.slice(-1)
         return Array.from(
@@ -46,14 +51,12 @@ export default {
         ).toFixed(2)
       )
     },
-    transmissionSpeeds(engine, transmission, drivetrain, wheels, increment) {
+    calculateTransmissionSpeeds(engine, transmission, drivetrain, wheels, increment) {
       // calculate all the gears.
-      // TODO: Memoize the results
-      const rpmPoints = this.rpmLabels(engine, increment)
       return transmission.gears.map(gear => ({
         name: 'gear ' + gear.id,
         values: this.gearSpeeds(
-          rpmPoints,
+          this.rpmLabels,
           gear.ratio,
           drivetrain.final_drive,
           wheels.diameter
@@ -77,11 +80,11 @@ export default {
     <vue-frappe
       id="my-chart-id"
       type="line"
-      :labels="rpmLabels(engine, 300).map(rpm => rpm.toString())"
+      :labels="rpmLabels.map(rpm => rpm.toString())"
       :colors="['#008F68', '#FAE042']"
       :line-options="{ regionFill: 1 }"
       :data-sets="
-        transmissionSpeeds(engine, transmission, drivetrain, wheels, 300)
+        transmissionSpeeds
       "
     />
   </div>
