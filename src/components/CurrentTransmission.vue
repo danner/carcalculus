@@ -24,8 +24,8 @@
     <number-slider
       v-for="gear in gears"
       :key="gear.id"
-      :number="gear.ratio"
-      :title="gear.id"
+      :value="gear.ratio"
+      :title="'gear '+gear.id"
       @input="updateGearRatio(gear, $event)"
     />
   </v-container>

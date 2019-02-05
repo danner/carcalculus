@@ -1,7 +1,7 @@
 <script>
   export default {
     props: {
-      number: {
+      value: {
         type: [String, Number],
         default: "3.00",
       },
@@ -37,20 +37,20 @@
       style="width: 60px"
     >
       <v-text-field
-        :value="number"
+        :value="value"
         class="mt-0"
         min="min"
         max="max"
         step="step"
         type="number"
-        label="title"
+        :label="title"
         number
         @input="updateNumber($event)"
       />
     </v-flex>
     <v-flex>
       <v-slider
-        :value="number"
+        :value="value"
         :min="min"
         :max="max"
         :step="step"

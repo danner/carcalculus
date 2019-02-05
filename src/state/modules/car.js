@@ -47,6 +47,10 @@ export const state = {
 }
 
 export const mutations = {
+  SET_ENGINE_DYNO_POINT(state, payload) {
+    // what about addition, removal, and updates to the RPM?
+    state.engine.dyno.find(point => point.rpm === payload.rpm).torque = payload.torque
+  },
   SET_TRANSMISSION_GEAR_RATIO(state, payload) {
     state.transmission.gears.find(gear => gear.id === payload.gear.id).ratio = payload.value
   },
@@ -67,11 +71,6 @@ export const mutations = {
   SET_WHEELS(state, newValue) {
     state.wheels = {...newValue}
   }
-  // SET_CURRENT_USER(state, newValue) {
-  //   state.currentUser = newValue
-  //   saveState('auth.currentUser', newValue)
-  //   setDefaultAuthHeaders(state)
-  // },
 }
 
 export const getters = {
