@@ -18,12 +18,12 @@ export const state = {
     id: 1,
     title: "347 Stroker",
     dyno: [
-      {rpm: 0, torque: 0},
-      {rpm: 1500, torque: 350},
-      {rpm: 4700, torque: 390},
-      {rpm: 5300, torque: 407},
-      {rpm: 6500, torque: 350},
-      {rpm: 7000, torque: 0},
+      {id: 1, rpm: 0, torque: 0},
+      {id: 2, rpm: 1500, torque: 350},
+      {id: 3, rpm: 4700, torque: 390},
+      {id: 4, rpm: 5300, torque: 407},
+      {id: 5, rpm: 6500, torque: 350},
+      {id: 6, rpm: 7000, torque: 0},
     ],
   },
   transmission: {
@@ -47,9 +47,26 @@ export const state = {
 }
 
 export const mutations = {
+  SET_ENGINE_DYNO(state, payload) {
+    state.engine.dyno = {...state.engine, dyno: payload}
+  },
   SET_ENGINE_DYNO_POINT(state, payload) {
-    // what about addition, removal, and updates to the RPM?
-    state.engine.dyno.find(point => point.rpm === payload.rpm).torque = payload.torque
+    const index = state.engine.dyno.findIndex(point => point.id === payload.id)
+    const oldPoint = state.engine.dyno[index]
+    state.engine.dyno.splice(index, 1, payload)
+    if(oldPoint.rpm !== payload.rpm) {
+      // sort the dyno if the rpm changed.
+      state.engine.dyno.sort((point1, point2) => point1.rpm - point2.rpm)
+    }
+  },
+  ADD_ENGINE_DYNO_POINT(state, payload) {
+    state.engine.dyno.push({...payload, id: Math.max(...state.engine.dyno.map(point => point.id)) + 1})
+    // sort the dyno after add?
+    state.engine.dyno.sort((point1, point2) => point1.rpm - point2.rpm)
+  },
+  REMOVE_ENGINE_DYNO_POINT(state, payload) {
+    const index = state.engine.dyno.findIndex(point => point.id === payload);
+    state.engine.dyno.splice(index, 1)
   },
   SET_TRANSMISSION_GEAR_RATIO(state, payload) {
     state.transmission.gears.find(gear => gear.id === payload.gear.id).ratio = payload.value

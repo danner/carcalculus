@@ -12,7 +12,10 @@ export default {
 </script>
 
 <template>
-  <v-flex xs12>
+  <v-flex
+    id="current-chart"
+    xs12
+  >
     <v-flex xs12>
       <v-tabs
         v-model="tab"

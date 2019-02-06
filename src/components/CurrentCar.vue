@@ -21,26 +21,26 @@ export default {
         id: 1,
         name: '347 Stroker',
         dyno: [
-          { torque: 0, rpm: 0 },
-          { torque: 350, rpm: 1500 },
-          { torque: 390, rpm: 4700 },
-          { torque: 407, rpm: 5300 },
-          { torque: 350, rpm: 6500 },
-          { torque: 0, rpm: 7000 },
+          { id: 1, rpm: 0, torque: 0 },
+          { id: 2, rpm: 1500, torque: 350 },
+          { id: 3, rpm: 4700, torque: 390 },
+          { id: 4, rpm: 5300, torque: 407 },
+          { id: 5, rpm: 6500, torque: 350 },
+          { id: 6, rpm: 7000, torque: 0 },
         ],
       },
       {
         id: 2,
         name: '94 Miata',
         dyno: [
-          { torque: 0, rpm: 0 },
-          { torque: 95, rpm: 2000 },
-          { torque: 100, rpm: 3000 },
-          { torque: 107, rpm: 4000 },
-          { torque: 113, rpm: 5000 },
-          { torque: 105, rpm: 6000 },
-          { torque: 85, rpm: 7000 },
-          { torque: 0, rpm: 8000 },
+          { id: 1, rpm: 0, torque: 0 },
+          { id: 2, rpm: 2000, torque: 95 },
+          { id: 3, rpm: 3000, torque: 100 },
+          { id: 4, rpm: 4000, torque: 107 },
+          { id: 5, rpm: 5000, torque: 113 },
+          { id: 6, rpm: 6000, torque: 105 },
+          { id: 7, rpm: 7000, torque: 85 },
+          { id: 8, rpm: 8000, torque: 0 },
         ],
       },
     ],
@@ -240,7 +240,9 @@ export default {
 </script>
 
 <template>
-  <v-flex>
+  <v-flex
+    id="current-car"
+  >
     <v-expansion-panel
       expand
       focusable
