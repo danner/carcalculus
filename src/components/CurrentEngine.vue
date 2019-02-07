@@ -57,12 +57,12 @@
       <v-flex xs2>
         <v-btn
           fab
-          flat
+          dark
           small
-          color="primary"
+          color="#ad1457"
           @click="removePoint(point.id)"
         >
-          <v-icon dark>
+          <v-icon>
             remove
           </v-icon>
         </v-btn>
@@ -74,12 +74,12 @@
     >
       <v-btn
         fab
-        flat
+        dark
         small
-        color="primary"
+        color="#311b92"
         @click="addPoint({})"
       >
-        <v-icon dark>
+        <v-icon>
           add
         </v-icon>
       </v-btn>
