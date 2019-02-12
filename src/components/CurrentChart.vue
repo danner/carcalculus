@@ -5,7 +5,7 @@
 export default {
   components: { DynoChart, SpeedChart },
   data: () => ({
-    tab: 1,
+    tab: 0,
   })
 };
 

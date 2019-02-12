@@ -16,6 +16,48 @@ export default {
   props: {
   },
   data: () => ({
+    car_parts: [
+      {
+        choices: "chassis_choices",
+        component: CurrentChassis,
+        model: "chassis",
+        title: "Chassis",
+      },
+      {
+        choices: "engine_choices",
+        component: CurrentEngine,
+        model: "engine",
+        title: "Engine",
+      },
+      {
+        choices: "transmission_choices",
+        component: CurrentTransmission,
+        model: "transmission",
+        title: "Transmission",
+      },
+      {
+        choices: "drivetrain_choices",
+        component: CurrentDrivetrain,
+        model: "drivetrain",
+        title: "Drivetrain",
+      },
+      {
+        choices: "wheels_choices",
+        component: CurrentWheels,
+        model: "wheels",
+        title: "Wheels",
+      },
+    ],
+    menu_items: [
+      {
+        title: "save as...",
+        action: "save",
+      },
+      {
+        title: "update",
+        action: "update",
+      },
+    ],
     engine_choices: [
       {
         id: 1,
@@ -236,6 +278,8 @@ export default {
       },
     },
   },
+  methods: {
+  }
 }
 </script>
 
@@ -247,22 +291,50 @@ export default {
       expand
       focusable
     >
-      <v-expansion-panel-content>
+      <v-expansion-panel-content
+        v-for="(part, index) in car_parts"
+        :key="part.title"
+      >
         <div slot="header">
-          Chassis
+          {{ part.title }}
         </div>
-        <v-card>
-          <v-autocomplete
-            v-model="chassis"
-            :items="chassis_choices"
-            return-object
-            :auto-select-first="true"
-            item-text="name"
-          />
-          <current-chassis />
-        </v-card>
+        <v-autocomplete
+          v-model="car_parts[index].model"
+          :items="car_parts[index].choices"
+          return-object
+          :auto-select-first="true"
+          item-text="name"
+        />
+        <v-menu
+          bottom
+          left
+        >
+          <v-btn
+            slot="activator"
+            icon
+          >
+            <v-icon
+              dark
+            >
+              more_vert
+            </v-icon>
+          </v-btn>
+          <v-list>
+            <v-list-tile
+              v-for="(item, i) in menu_items"
+              :key="i"
+            >
+              <v-list-tile-title>{{ item.title }}</v-list-tile-title>
+            </v-list-tile>
+          </v-list>
+        </v-menu>
+        <component :is="part.component" />
       </v-expansion-panel-content>
-      <v-expansion-panel-content>
+    </v-expansion-panel>
+  </v-flex>
+</template>
+
+<!--       <v-expansion-panel-content>
         <div slot="header">
           Engine
         </div>
@@ -321,7 +393,4 @@ export default {
           />
           <current-wheels />
         </v-card>
-      </v-expansion-panel-content>
-    </v-expansion-panel>
-  </v-flex>
-</template>
+      </v-expansion-panel-content> -->
