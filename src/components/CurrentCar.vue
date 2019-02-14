@@ -16,6 +16,16 @@ export default {
   props: {
   },
   data: () => ({
+    menu_items: [
+      {
+        title: "save as...",
+        action: "save",
+      },
+      {
+        title: "update",
+        action: "update",
+      },
+    ],
     engine_choices: [
       {
         id: 1,
@@ -251,76 +261,89 @@ export default {
         <div slot="header">
           Chassis
         </div>
-        <v-card>
-          <v-autocomplete
-            v-model="chassis"
-            :items="chassis_choices"
-            return-object
-            :auto-select-first="true"
-            item-text="name"
-          />
-          <current-chassis />
-        </v-card>
+        <v-autocomplete
+          v-model="chassis"
+          :items="chassis_choices"
+          return-object
+          :auto-select-first="true"
+          item-text="name"
+        />
+        <v-menu
+          bottom
+          left
+        >
+          <v-btn
+            slot="activator"
+            icon
+          >
+            <v-icon
+              dark
+            >
+              more_vert
+            </v-icon>
+          </v-btn>
+          <v-list>
+            <v-list-tile
+              v-for="(item, i) in menu_items"
+              :key="i"
+            >
+              <v-list-tile-title>{{ item.title }}</v-list-tile-title>
+            </v-list-tile>
+          </v-list>
+        </v-menu>
+        <current-chassis />
       </v-expansion-panel-content>
       <v-expansion-panel-content>
         <div slot="header">
           Engine
         </div>
-        <v-card>
-          <v-autocomplete
-            v-model="engine"
-            :items="engine_choices"
-            return-object
-            :auto-select-first="true"
-            item-text="name"
-          />
-          <current-engine />
-        </v-card>
+        <v-autocomplete
+          v-model="engine"
+          :items="engine_choices"
+          return-object
+          :auto-select-first="true"
+          item-text="name"
+        />
+        <current-engine />
       </v-expansion-panel-content>
       <v-expansion-panel-content>
         <div slot="header">
           Transmission
         </div>
-        <v-card>
-          <v-autocomplete
-            v-model="transmission"
-            :items="transmission_choices"
-            return-object
-            :auto-select-first="true"
-            item-text="name"
-          />
-          <current-transmission />
-        </v-card>
+        <v-autocomplete
+          v-model="transmission"
+          :items="transmission_choices"
+          return-object
+          :auto-select-first="true"
+          item-text="name"
+        />
+        <current-transmission />
       </v-expansion-panel-content>
       <v-expansion-panel-content>
         <div slot="header">
           Drivetrain
         </div>
-        <v-card>
-          <v-autocomplete
-            v-model="drivetrain"
-            :items="drivetrain_choices"
-            return-object
-            :auto-select-first="true"
-            item-text="name"
-          />
-          <current-drivetrain />
-        </v-card>
+        <v-autocomplete
+          v-model="drivetrain"
+          :items="drivetrain_choices"
+          return-object
+          :auto-select-first="true"
+          item-text="name"
+        />
+        <current-drivetrain />
       </v-expansion-panel-content>
       <v-expansion-panel-content>
         <div slot="header">
           Wheels
         </div>
-        <v-card>
-          <v-autocomplete
-            v-model="wheels"
-            :items="wheels_choices"
-            return-object
-            :auto-select-first="true"
-            item-text="name"
-          />
-          <current-wheels />
-        </v-card>
+        <v-autocomplete
+          v-model="wheels"
+          :items="wheels_choices"
+          return-object
+          :auto-select-first="true"
+          item-text="name"
+        />
+        <current-wheels />
       </v-expansion-panel-content>
     </v-expansion-panel>
   </v-flex>
